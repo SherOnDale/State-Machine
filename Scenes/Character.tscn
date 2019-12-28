@@ -1,0 +1,94 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://Scripts/Character.gd" type="Script" id=1]
+
+[sub_resource type="CapsuleShape2D" id=1]
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "death"
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "run and shoot"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "run"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "shoot"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "walk and shoot"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+
+[sub_resource type="AnimationNodeStateMachine" id=2]
+states/death/node = SubResource( 4 )
+states/death/position = Vector2( 84, 146 )
+states/idle/node = SubResource( 5 )
+states/idle/position = Vector2( 263, 146 )
+states/run/node = SubResource( 7 )
+states/run/position = Vector2( 612, 138 )
+"states/run and shoot/node" = SubResource( 6 )
+"states/run and shoot/position" = Vector2( 819, 146 )
+states/shoot/node = SubResource( 8 )
+states/shoot/position = Vector2( 490, 228 )
+states/walk/node = SubResource( 10 )
+states/walk/position = Vector2( 415, 38 )
+"states/walk and shoot/node" = SubResource( 9 )
+"states/walk and shoot/position" = Vector2( 643, 28 )
+transitions = [ "idle", "walk", SubResource( 11 ), "walk", "idle", SubResource( 12 ), "run", "idle", SubResource( 13 ), "idle", "shoot", SubResource( 14 ), "shoot", "idle", SubResource( 15 ), "idle", "death", SubResource( 16 ), "run", "run and shoot", SubResource( 17 ), "run and shoot", "run", SubResource( 18 ), "walk", "walk and shoot", SubResource( 19 ), "walk and shoot", "walk", SubResource( 20 ), "idle", "run", SubResource( 21 ) ]
+start_node = "idle"
+end_node = "death"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=3]
+
+[node name="Character" type="KinematicBody2D"]
+script = ExtResource( 1 )
+SPEED = 20
+MAX_SPEED = 200
+FRICTION = 0.1
+
+[node name="Sprite" type="Sprite" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 2 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 3 )
